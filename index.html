@@ -8,11 +8,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="css/leaflet-search.css">
-        <link rel="stylesheet" href="css/filter.css">
-<link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
-        <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -36,206 +32,1052 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
-        <script src="js/leaflet-measure.js"></script>
-        <script src="js/leaflet-search.js"></script>
-        <script src="js/tailDT.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/wNumb.js"></script>
-        <script src="data/Mavallka_1.js"></script>
+        <script src="data/Orthodox_1.js"></script>
+        <script src="data/Greekcatholic_2.js"></script>
+        <script src="data/Protestantevangelical_3.js"></script>
+        <script src="data/Protestantreformational_4.js"></script>
+        <script src="data/Romancatholic_5.js"></script>
+        <script src="data/Dominancemap_6.js"></script>
         <script>
         var map = L.map('map', {
-            zoomControl:true, maxZoom:14, minZoom:8
-        }).fitBounds([[45.18731166416696,15.996621728453658],[49.163495389276115,23.049235604304403]]);
+            zoomControl:true, maxZoom:12, minZoom:8
+        }).fitBounds([[45.127310252551496,15.519062977880742],[49.05099502246001,24.791698082568356]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
-        var measureControl = new L.Control.Measure({
-            position: 'topleft',
-            primaryLengthUnit: 'meters',
-            secondaryLengthUnit: 'kilometers',
-            primaryAreaUnit: 'sqmeters',
-            secondaryAreaUnit: 'hectares'
-        });
-        measureControl.addTo(map);
-        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
-        .innerHTML = '';
-        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
-        .className += ' fas fa-ruler';
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
-        map.createPane('pane_OSMStandard_0');
-        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
-        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            pane: 'pane_OSMStandard_0',
-            opacity: 1.0,
+        map.createPane('pane_OSMBasemap_0');
+        map.getPane('pane_OSMBasemap_0').style.zIndex = 400;
+        var layer_OSMBasemap_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMBasemap_0',
+            opacity: 0.7,
             attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
             minZoom: 8,
-            maxZoom: 14,
+            maxZoom: 12,
             minNativeZoom: 0,
             maxNativeZoom: 19
         });
-        layer_OSMStandard_0;
-        map.addLayer(layer_OSMStandard_0);
-        function pop_Mavallka_1(feature, layer) {
+        layer_OSMBasemap_0;
+        map.addLayer(layer_OSMBasemap_0);
+        function pop_Orthodox_1(feature, layer) {
             var popupContent = '<table>\
-                   \
                     <tr>\
-                        <td colspan="2"><strong>Vallási épület neve</strong><br />' + (feature.properties['name'] !== null ? autolinker.link(feature.properties['name'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Municipality</strong><br />' + (feature.properties['telepulesn'] !== null ? autolinker.link(feature.properties['telepulesn'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Típus</th>\
-                        <td>' + (feature.properties['type'] !== null ? autolinker.link(feature.properties['type'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Orthodox</th>\
+                        <td>' + (feature.properties['ortodox'] !== null ? autolinker.link(feature.properties['ortodox'].toLocaleString()) : '') + ' %</td>\
                     </tr>\
-                    <tr>\
-					<th scope="row">Alapítás éve</th>\
-                        <td colspan="2">' + (feature.properties['Time_start'] !== null ? autolinker.link(feature.properties['Time_start'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-					 <th scope="row">Megszűnés éve</th>\
-                        <td colspan="2">' + (feature.properties['Time_end'] !== null ? autolinker.link(feature.properties['Time_end'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    \
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_Mavallka_1_0(feature) {
-            switch(String(feature.properties['Time_start'])) {
-                case '1600':
-                    return {
-                pane: 'pane_Mavallka_1',
-                radius: 4.0,
+        function style_Orthodox_1_0(feature) {
+            if (feature.properties['ortodox'] >= 0.000000 && feature.properties['ortodox'] <= 10.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(103,0,13,1.0)',
+                fillColor: 'rgba(250,250,250,1.0)',
                 interactive: true,
             }
-                    break;
-                case '1700':
-                    return {
-                pane: 'pane_Mavallka_1',
-                radius: 4.0,
+            }
+            if (feature.properties['ortodox'] >= 10.000000 && feature.properties['ortodox'] <= 20.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(186,20,25,1.0)',
+                fillColor: 'rgba(223,223,223,1.0)',
                 interactive: true,
             }
-                    break;
-                case '1800':
-                    return {
-                pane: 'pane_Mavallka_1',
-                radius: 4.0,
+            }
+            if (feature.properties['ortodox'] >= 20.000000 && feature.properties['ortodox'] <= 30.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(235,54,42,1.0)',
+                fillColor: 'rgba(196,196,196,1.0)',
                 interactive: true,
             }
-                    break;
-                case '1900':
-                    return {
-                pane: 'pane_Mavallka_1',
-                radius: 4.0,
+            }
+            if (feature.properties['ortodox'] >= 30.000000 && feature.properties['ortodox'] <= 40.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(252,112,80,1.0)',
+                fillColor: 'rgba(168,168,168,1.0)',
                 interactive: true,
             }
-                    break;
-                case '1950':
-                    return {
-                pane: 'pane_Mavallka_1',
-                radius: 4.0,
+            }
+            if (feature.properties['ortodox'] >= 40.000000 && feature.properties['ortodox'] <= 50.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(252,164,135,1.0)',
+                fillColor: 'rgba(141,141,141,1.0)',
                 interactive: true,
             }
-                    break;
-                case '2000':
-                    return {
-                pane: 'pane_Mavallka_1',
-                radius: 4.0,
+            }
+            if (feature.properties['ortodox'] >= 50.000000 && feature.properties['ortodox'] <= 60.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(254,214,196,1.0)',
+                fillColor: 'rgba(114,114,114,1.0)',
                 interactive: true,
             }
-                    break;
-                default:
-                    return {
-                pane: 'pane_Mavallka_1',
-                radius: 4.0,
+            }
+            if (feature.properties['ortodox'] >= 60.000000 && feature.properties['ortodox'] <= 70.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(87,87,87,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['ortodox'] >= 70.000000 && feature.properties['ortodox'] <= 80.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(59,59,59,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['ortodox'] >= 80.000000 && feature.properties['ortodox'] <= 90.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(32,32,32,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['ortodox'] >= 90.000000 && feature.properties['ortodox'] <= 100.000000 ) {
+                return {
+                pane: 'pane_Orthodox_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(5,5,5,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Orthodox_1');
+        map.getPane('pane_Orthodox_1').style.zIndex = 401;
+        map.getPane('pane_Orthodox_1').style['mix-blend-mode'] = 'normal';
+        var layer_Orthodox_1 = new L.geoJson(json_Orthodox_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Orthodox_1',
+            layerName: 'layer_Orthodox_1',
+            pane: 'pane_Orthodox_1',
+            onEachFeature: pop_Orthodox_1,
+            style: style_Orthodox_1_0,
+        });
+        bounds_group.addLayer(layer_Orthodox_1);
+        function pop_Greekcatholic_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Municipality</strong><br />' + (feature.properties['telepulesn'] !== null ? autolinker.link(feature.properties['telepulesn'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Greek catholic</th>\
+                        <td>' + (feature.properties['gorogkat'] !== null ? autolinker.link(feature.properties['gorogkat'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Greekcatholic_2_0(feature) {
+            if (feature.properties['gorogkat'] >= 0.000000 && feature.properties['gorogkat'] <= 10.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,252,245,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 10.000000 && feature.properties['gorogkat'] <= 20.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,246,227,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 20.000000 && feature.properties['gorogkat'] <= 30.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(208,236,201,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 30.000000 && feature.properties['gorogkat'] <= 40.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(178,224,171,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 40.000000 && feature.properties['gorogkat'] <= 50.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(142,208,140,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 50.000000 && feature.properties['gorogkat'] <= 60.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(102,189,111,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 60.000000 && feature.properties['gorogkat'] <= 70.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(61,167,90,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 70.000000 && feature.properties['gorogkat'] <= 80.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(36,140,69,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 80.000000 && feature.properties['gorogkat'] <= 90.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(3,112,46,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['gorogkat'] >= 90.000000 && feature.properties['gorogkat'] <= 100.000000 ) {
+                return {
+                pane: 'pane_Greekcatholic_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,68,27,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Greekcatholic_2');
+        map.getPane('pane_Greekcatholic_2').style.zIndex = 402;
+        map.getPane('pane_Greekcatholic_2').style['mix-blend-mode'] = 'normal';
+        var layer_Greekcatholic_2 = new L.geoJson(json_Greekcatholic_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Greekcatholic_2',
+            layerName: 'layer_Greekcatholic_2',
+            pane: 'pane_Greekcatholic_2',
+            onEachFeature: pop_Greekcatholic_2,
+            style: style_Greekcatholic_2_0,
+        });
+        bounds_group.addLayer(layer_Greekcatholic_2);
+        function pop_Protestantevangelical_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Municipality</strong><br />' + (feature.properties['telepulesn'] !== null ? autolinker.link(feature.properties['telepulesn'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Protestant - evangelical</th>\
+                        <td>' + (feature.properties['evangelic'] !== null ? autolinker.link(feature.properties['evangelic'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Protestantevangelical_3_0(feature) {
+            if (feature.properties['evangelic'] >= 0.000000 && feature.properties['evangelic'] <= 10.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(241,238,246,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 10.000000 && feature.properties['evangelic'] <= 20.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(229,213,233,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 20.000000 && feature.properties['evangelic'] <= 30.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(218,187,219,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 30.000000 && feature.properties['evangelic'] <= 40.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(218,154,203,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 40.000000 && feature.properties['evangelic'] <= 50.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(221,119,185,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 50.000000 && feature.properties['evangelic'] <= 60.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(223,85,163,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 60.000000 && feature.properties['evangelic'] <= 70.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(222,52,138,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 70.000000 && feature.properties['evangelic'] <= 80.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(213,25,113,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 80.000000 && feature.properties['evangelic'] <= 90.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(183,12,90,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['evangelic'] >= 90.000000 && feature.properties['evangelic'] <= 100.000000 ) {
+                return {
+                pane: 'pane_Protestantevangelical_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(152,0,67,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Protestantevangelical_3');
+        map.getPane('pane_Protestantevangelical_3').style.zIndex = 403;
+        map.getPane('pane_Protestantevangelical_3').style['mix-blend-mode'] = 'normal';
+        var layer_Protestantevangelical_3 = new L.geoJson(json_Protestantevangelical_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Protestantevangelical_3',
+            layerName: 'layer_Protestantevangelical_3',
+            pane: 'pane_Protestantevangelical_3',
+            onEachFeature: pop_Protestantevangelical_3,
+            style: style_Protestantevangelical_3_0,
+        });
+        bounds_group.addLayer(layer_Protestantevangelical_3);
+        function pop_Protestantreformational_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Municipality</strong><br />' + (feature.properties['telepulesn'] !== null ? autolinker.link(feature.properties['telepulesn'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Protestant - reformational</th>\
+                        <td>' + (feature.properties['reformat'] !== null ? autolinker.link(feature.properties['reformat'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Protestantreformational_4_0(feature) {
+            if (feature.properties['reformat'] >= 0.000000 && feature.properties['reformat'] <= 10.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 10.000000 && feature.properties['reformat'] <= 20.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,237,248,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 20.000000 && feature.properties['reformat'] <= 30.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(205,224,241,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 30.000000 && feature.properties['reformat'] <= 40.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(175,209,231,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 40.000000 && feature.properties['reformat'] <= 50.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(137,190,220,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 50.000000 && feature.properties['reformat'] <= 60.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(96,166,210,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 60.000000 && feature.properties['reformat'] <= 70.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(62,142,196,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 70.000000 && feature.properties['reformat'] <= 80.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(34,114,181,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 80.000000 && feature.properties['reformat'] <= 90.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(10,84,158,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['reformat'] >= 90.000000 && feature.properties['reformat'] <= 100.000000 ) {
+                return {
+                pane: 'pane_Protestantreformational_4',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_Protestantreformational_4');
+        map.getPane('pane_Protestantreformational_4').style.zIndex = 404;
+        map.getPane('pane_Protestantreformational_4').style['mix-blend-mode'] = 'normal';
+        var layer_Protestantreformational_4 = new L.geoJson(json_Protestantreformational_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Protestantreformational_4',
+            layerName: 'layer_Protestantreformational_4',
+            pane: 'pane_Protestantreformational_4',
+            onEachFeature: pop_Protestantreformational_4,
+            style: style_Protestantreformational_4_0,
+        });
+        bounds_group.addLayer(layer_Protestantreformational_4);
+        function pop_Romancatholic_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Municipality</strong><br />' + (feature.properties['telepulesn'] !== null ? autolinker.link(feature.properties['telepulesn'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Roman catholic</th>\
+                        <td>' + (feature.properties['romaikat'] !== null ? autolinker.link(feature.properties['romaikat'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Romancatholic_5_0(feature) {
+            if (feature.properties['romaikat'] >= 0.000000 && feature.properties['romaikat'] <= 10.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
                 fillColor: 'rgba(255,245,240,1.0)',
                 interactive: true,
             }
-                    break;
+            }
+            if (feature.properties['romaikat'] >= 10.000000 && feature.properties['romaikat'] <= 20.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(254,227,214,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 20.000000 && feature.properties['romaikat'] <= 30.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,198,175,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 30.000000 && feature.properties['romaikat'] <= 40.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,164,134,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 40.000000 && feature.properties['romaikat'] <= 50.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,129,97,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 50.000000 && feature.properties['romaikat'] <= 60.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(248,93,66,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 60.000000 && feature.properties['romaikat'] <= 70.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(234,55,42,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 70.000000 && feature.properties['romaikat'] <= 80.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(204,25,29,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 80.000000 && feature.properties['romaikat'] <= 90.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(169,16,22,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['romaikat'] >= 90.000000 && feature.properties['romaikat'] <= 100.000000 ) {
+                return {
+                pane: 'pane_Romancatholic_5',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(103,0,13,1.0)',
+                interactive: true,
+            }
             }
         }
-        map.createPane('pane_Mavallka_1');
-        map.getPane('pane_Mavallka_1').style.zIndex = 401;
-        map.getPane('pane_Mavallka_1').style['mix-blend-mode'] = 'normal';
-        var layer_Mavallka_1 = new L.geoJson(json_Mavallka_1, {
+        map.createPane('pane_Romancatholic_5');
+        map.getPane('pane_Romancatholic_5').style.zIndex = 405;
+        map.getPane('pane_Romancatholic_5').style['mix-blend-mode'] = 'normal';
+        var layer_Romancatholic_5 = new L.geoJson(json_Romancatholic_5, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_Mavallka_1',
-            layerName: 'layer_Mavallka_1',
-            pane: 'pane_Mavallka_1',
-            onEachFeature: pop_Mavallka_1,
-            pointToLayer: function (feature, latlng) {
-                var context = {
-                    feature: feature,
-                    variables: {}
-                };
-                return L.circleMarker(latlng, style_Mavallka_1_0(feature));
-            },
+            dataVar: 'json_Romancatholic_5',
+            layerName: 'layer_Romancatholic_5',
+            pane: 'pane_Romancatholic_5',
+            onEachFeature: pop_Romancatholic_5,
+            style: style_Romancatholic_5_0,
         });
-        bounds_group.addLayer(layer_Mavallka_1);
-        map.addLayer(layer_Mavallka_1);
+        bounds_group.addLayer(layer_Romancatholic_5);
+        function pop_Dominancemap_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>Municipality</strong><br />' + (feature.properties['telepulesn'] !== null ? autolinker.link(feature.properties['telepulesn'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Roman catholic</th>\
+                        <td>' + (feature.properties['romaikat'] !== null ? autolinker.link(feature.properties['romaikat'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Protestant - evangelical</th>\
+                        <td>' + (feature.properties['evangelic'] !== null ? autolinker.link(feature.properties['evangelic'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Protestant - reformational</th>\
+                        <td>' + (feature.properties['reformat'] !== null ? autolinker.link(feature.properties['reformat'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Othodox</th>\
+                        <td>' + (feature.properties['ortodox'] !== null ? autolinker.link(feature.properties['ortodox'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Greek catholic</th>\
+                        <td>' + (feature.properties['gorogkat'] !== null ? autolinker.link(feature.properties['gorogkat'].toLocaleString()) : '') + ' %</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+        function style_Dominancemap_6_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Dominancemap_6rule0_eval_expression(context)) {
+                  return {
+                pane: 'pane_Dominancemap_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(196,22,25,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Dominancemap_6rule1_eval_expression(context)) {
+                  return {
+                pane: 'pane_Dominancemap_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(31,120,180,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Dominancemap_6rule2_eval_expression(context)) {
+                  return {
+                pane: 'pane_Dominancemap_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(251,154,153,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Dominancemap_6rule3_eval_expression(context)) {
+                  return {
+                pane: 'pane_Dominancemap_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(51,160,44,1.0)',
+                interactive: true,
+            };
+                }
+                else if (exp_Dominancemap_6rule4_eval_expression(context)) {
+                  return {
+                pane: 'pane_Dominancemap_6',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(102,102,102,1.0)',
+                interactive: true,
+            };
+                }
+            else {
+                return {fill: false, stroke: false};
+            }
+        }
+        map.createPane('pane_Dominancemap_6');
+        map.getPane('pane_Dominancemap_6').style.zIndex = 406;
+        map.getPane('pane_Dominancemap_6').style['mix-blend-mode'] = 'normal';
+        var layer_Dominancemap_6 = new L.geoJson(json_Dominancemap_6, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Dominancemap_6',
+            layerName: 'layer_Dominancemap_6',
+            pane: 'pane_Dominancemap_6',
+            onEachFeature: pop_Dominancemap_6,
+            style: style_Dominancemap_6_0,
+        });
+        bounds_group.addLayer(layer_Dominancemap_6);
+        map.addLayer(layer_Dominancemap_6);
         var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
@@ -247,198 +1089,8 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'Vallási épületek<br />Alapítás éve<table><tr><td style="text-align: center;"><img src="legend/Mavallka_1_16000.png" /></td><td>1600</td></tr><tr><td style="text-align: center;"><img src="legend/Mavallka_1_17001.png" /></td><td>1700</td></tr><tr><td style="text-align: center;"><img src="legend/Mavallka_1_18002.png" /></td><td>1800</td></tr><tr><td style="text-align: center;"><img src="legend/Mavallka_1_19003.png" /></td><td>1900</td></tr><tr><td style="text-align: center;"><img src="legend/Mavallka_1_19504.png" /></td><td>1950</td></tr><tr><td style="text-align: center;"><img src="legend/Mavallka_1_20005.png" /></td><td>2000</td></tr>></table>': layer_Mavallka_1,"Alaptérkép": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        L.control.layers(baseMaps,{'Dominance map<br /><table><tr><td style="text-align: center;"><img src="legend/Dominancemap_6_Romancatholic0.png" /></td><td>Roman catholic</td></tr><tr><td style="text-align: center;"><img src="legend/Dominancemap_6_Protestantreformational1.png" /></td><td>Protestant - reformational</td></tr><tr><td style="text-align: center;"><img src="legend/Dominancemap_6_Protestantevangelical2.png" /></td><td>Protestant - evangelical</td></tr><tr><td style="text-align: center;"><img src="legend/Dominancemap_6_Greekcatholic3.png" /></td><td>Greek catholic</td></tr><tr><td style="text-align: center;"><img src="legend/Dominancemap_6_Orthodox4.png" /></td><td>Orthodox</td></tr></table>': layer_Dominancemap_6,'Roman catholic<br /><table><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_30403.png" /></td><td>30 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_40504.png" /></td><td>40 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_50605.png" /></td><td>50 - 60</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_60706.png" /></td><td>60 - 70</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_70807.png" /></td><td>70 - 80</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_80908.png" /></td><td>80 - 90</td></tr><tr><td style="text-align: center;"><img src="legend/Romancatholic_5_901009.png" /></td><td>90 - 100</td></tr></table>': layer_Romancatholic_5,'Protestant - reformational<br /><table><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_30403.png" /></td><td>30 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_40504.png" /></td><td>40 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_50605.png" /></td><td>50 - 60</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_60706.png" /></td><td>60 - 70</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_70807.png" /></td><td>70 - 80</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_80908.png" /></td><td>80 - 90</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantreformational_4_901009.png" /></td><td>90 - 100</td></tr></table>': layer_Protestantreformational_4,'Protestant - evangelical<br /><table><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_30403.png" /></td><td>30 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_40504.png" /></td><td>40 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_50605.png" /></td><td>50 - 60</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_60706.png" /></td><td>60 - 70</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_70807.png" /></td><td>70 - 80</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_80908.png" /></td><td>80 - 90</td></tr><tr><td style="text-align: center;"><img src="legend/Protestantevangelical_3_901009.png" /></td><td>90 - 100</td></tr></table>': layer_Protestantevangelical_3,'Greek catholic<br /><table><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_30403.png" /></td><td>30 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_40504.png" /></td><td>40 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_50605.png" /></td><td>50 - 60</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_60706.png" /></td><td>60 - 70</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_70807.png" /></td><td>70 - 80</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_80908.png" /></td><td>80 - 90</td></tr><tr><td style="text-align: center;"><img src="legend/Greekcatholic_2_901009.png" /></td><td>90 - 100</td></tr></table>': layer_Greekcatholic_2,'Orthodox<br /><table><tr><td style="text-align: center;"><img src="legend/Orthodox_1_0100.png" /></td><td>0 - 10</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_10201.png" /></td><td>10 - 20</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_20302.png" /></td><td>20 - 30</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_30403.png" /></td><td>30 - 40</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_40504.png" /></td><td>40 - 50</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_50605.png" /></td><td>50 - 60</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_60706.png" /></td><td>60 - 70</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_70807.png" /></td><td>70 - 80</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_80908.png" /></td><td>80 - 90</td></tr><tr><td style="text-align: center;"><img src="legend/Orthodox_1_901009.png" /></td><td>90 - 100</td></tr></table>': layer_Orthodox_1,"OSM Basemap": layer_OSMBasemap_0,},{collapsed:false}).addTo(map);
         setBounds();
-        map.addControl(new L.Control.Search({
-            layer: layer_Mavallka_1,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'name'}));
-        document.getElementsByClassName('search-button')[0].className +=
-         ' fa fa-binoculars';
-        var mapDiv = document.getElementById('map');
-        var row = document.createElement('div');
-        row.className="row";
-        row.id="all";
-        row.style.height = "100%";
-        var col1 = document.createElement('div');
-        col1.className="col9";
-        col1.id = "mapWindow";
-        col1.style.height = "99%";
-        col1.style.width = "80%";
-        col1.style.display = "inline-block";
-        var col2 = document.createElement('div');
-        col2.className="col3";
-        col2.id = "menu";
-        col2.style.display = "inline-block";
-        mapDiv.parentNode.insertBefore(row, mapDiv);
-        document.getElementById("all").appendChild(col1);
-        document.getElementById("all").appendChild(col2);
-        col1.appendChild(mapDiv)
-        var Filters = {"Time_start": "int","type": "str"};
-        function filterFunc() {
-          map.eachLayer(function(lyr){
-          if ("options" in lyr && "dataVar" in lyr["options"]){
-            features = this[lyr["options"]["dataVar"]].features.slice(0);
-            try{
-              for (key in Filters){
-                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
-                if (Filters[key] == "str" || Filters[key] == "bool"){
-                  var selection = [];
-                  var options = document.getElementById("sel_" + keyS).options
-                  for (var i=0; i < options.length; i++) {
-                    if (options[i].selected) selection.push(options[i].value);
-                  }
-                    try{
-                      if (key in features[0].properties){
-                        for (i = features.length - 1;
-                          i >= 0; --i){
-                          if (selection.indexOf(
-                          features[i].properties[key])<0
-                          && selection.length>0) {
-                          features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                  }
-                }
-                if (Filters[key] == "int"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (parseInt(features[i].properties[key])
-                          < sliderVals[0]
-                          || parseInt(features[i].properties[key])
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "real"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (features[i].properties[key]
-                          < sliderVals[0]
-                          || features[i].properties[key]
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "date"
-                  || Filters[key] == "datetime"
-                  || Filters[key] == "time"){
-                  try{
-                    if (key in features[0].properties){
-                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
-                      startdate = document.getElementById("dat_" +
-                        HTMLkey + "_date1").value.replace(" ", "T");
-                      enddate = document.getElementById("dat_" +
-                        HTMLkey + "_date2").value.replace(" ", "T");
-                      for (i = features.length - 1; i >= 0; --i){
-                        if (features[i].properties[key] < startdate
-                          || features[i].properties[key] > enddate){
-                          features.splice(i,1);
-                        }
-                      }
-                    }
-                  } catch(err){
-                  }
-                }
-              }
-            } catch(err){
-            }
-          this[lyr["options"]["layerName"]].clearLayers();
-          this[lyr["options"]["layerName"]].addData(features);
-          }
-          })
-        }
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_Time_start = document.createElement("div");
-            div_Time_start.id = "div_Time_start";
-            div_Time_start.className = "slider";
-            document.getElementById("menu").appendChild(div_Time_start);
-            var lab_Time_start = document.createElement('div');
-            lab_Time_start.innerHTML  = 'Alapítás éve: <span id="val_Time_start"></span>';
-            lab_Time_start.className = 'filterlabel';
-            document.getElementById("menu").appendChild(lab_Time_start);
-            var reset_Time_start = document.createElement('div');
-            reset_Time_start.innerHTML = 'Visszaállítás';
-            reset_Time_start.className = 'filterlabel';
-            lab_Time_start.className = 'filterlabel';
-            reset_Time_start.onclick = function() {
-                sel_Time_start.noUiSlider.reset();
-            };
-            document.getElementById("menu").appendChild(reset_Time_start);
-            var sel_Time_start = document.getElementById('div_Time_start');
-            noUiSlider.create(sel_Time_start, {
-                connect: true,
-                start: [1600, 2000],
-                step: 50,
-                format: wNumb({
-                    decimals: 0,
-                    }),
-                range: {
-                min: 1600,
-                max: 2000
-                }
-            });
-            sel_Time_start.noUiSlider.on('update', function (values) {
-            filterVals =[];
-            for (value in values){
-            filterVals.push(parseInt(value))
-            }
-            val_Time_start = document.getElementById('val_Time_start');
-            val_Time_start.innerHTML = values.join(' - ');
-                filterFunc()
-            });
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_type = document.createElement('div');
-            div_type.id = "div_type";
-            div_type.className= "filterselect";
-            document.getElementById("menu").appendChild(div_type);
-            sel_type = document.createElement('select');
-            sel_type.multiple = true;
-            sel_type.size = 4;
-            sel_type.id = "sel_type";
-            var type_options_str = "<option value='' unselected></option>";
-            sel_type.onchange = function(){filterFunc()};
-            type_options_str  += '<option value="cathedral">Katedrális</option>';
-            type_options_str  += '<option value="chapel">Kápolna</option>';
-            type_options_str  += '<option value="church">Templom</option>';
-            sel_type.innerHTML = type_options_str;
-            div_type.appendChild(sel_type);
-            var lab_type = document.createElement('div');
-            lab_type.innerHTML = 'Vallási épület típusa';
-            lab_type.className = 'filterlabel';
-            div_type.appendChild(lab_type);
-            var reset_type = document.createElement('div');
-            reset_type.innerHTML = 'Visszaállítás';
-            reset_type.className = 'filterlabel';
-            reset_type.onclick = function() {
-                var options = document.getElementById("sel_type").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_type.appendChild(reset_type);
-			
-			
         </script>
     </body>
 </html>
