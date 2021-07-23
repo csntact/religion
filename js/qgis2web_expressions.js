@@ -754,3 +754,69 @@ function fnc__specialcol_(values, context) {
 function fnc_project_color(values, context) {
     return false;
 };
+
+
+
+function exp_Dominancemap_6rule0_eval_expression(context) {
+    // romaikat > 40
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['romaikat']  > 40);
+    } else {
+        return (feature['romaikat']  > 40);
+    }
+}
+
+
+function exp_Dominancemap_6rule1_eval_expression(context) {
+    // reformat > 40
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['reformat']  > 40);
+    } else {
+        return (feature['reformat']  > 40);
+    }
+}
+
+
+function exp_Dominancemap_6rule2_eval_expression(context) {
+    // evangelic > 40
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['evangelic']  > 40);
+    } else {
+        return (feature['evangelic']  > 40);
+    }
+}
+
+
+function exp_Dominancemap_6rule3_eval_expression(context) {
+    // gorogkat > 40
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['gorogkat']  > 40);
+    } else {
+        return (feature['gorogkat']  > 40);
+    }
+}
+
+
+function exp_Dominancemap_6rule4_eval_expression(context) {
+    // ortodox > 40
+
+    var feature = context.feature;
+    
+    if (feature.properties) {
+        return (feature.properties['ortodox']  > 40);
+    } else {
+        return (feature['ortodox']  > 40);
+    }
+}
