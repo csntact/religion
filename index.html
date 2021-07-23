@@ -40,7 +40,7 @@
         <script src="data/Dominancemap_6.js"></script>
         <script>
         var map = L.map('map', {
-            zoomControl:true, maxZoom:12, minZoom:8
+            zoomControl:true, maxZoom:12, minZoom:6
         }).fitBounds([[45.127310252551496,15.519062977880742],[49.05099502246001,24.791698082568356]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
@@ -54,7 +54,7 @@
             pane: 'pane_OSMBasemap_0',
             opacity: 0.7,
             attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
-            minZoom: 8,
+            minZoom: 6,
             maxZoom: 12,
             minNativeZoom: 0,
             maxNativeZoom: 19
